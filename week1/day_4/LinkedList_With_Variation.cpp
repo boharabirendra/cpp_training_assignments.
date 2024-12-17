@@ -35,6 +35,14 @@ public:
         }
     }
 
+    ~Variant()
+    {
+        if (m_strPtr != nullptr)
+        {
+            delete[] m_strPtr;
+        }
+    }
+
     int getIntVar() const { return m_intVar; }
     DATATYPE getType() const { return m_type; }
     bool getBoolVar() const { return m_boolVar; }
@@ -78,6 +86,17 @@ public:
         }
     }
 
+    ~VariantList()
+    {
+        Node *temp = head;
+        while (temp)
+        {
+            Node *nextNode = temp->next;
+            delete temp;
+            temp = nextNode;
+        }
+    }
+
     friend std::ostream &operator<<(std::ostream &stream, const VariantList &vl);
 
 private:
@@ -92,21 +111,21 @@ std::ostream &operator<<(std::ostream &stream, const VariantList &vl)
         switch (temp->v.getType())
         {
         case DATATYPE::INTEGER:
-            stream << "[" << temp->v.getIntVar() << "]";
+            stream << "[" << temp << ", " << temp->v.getIntVar() << ", " << temp->next << "]";
             break;
         case DATATYPE::DOUBLE:
-            stream << "[" << temp->v.getDoubleVar() << "]";
+            stream << "[" << temp << ", " << temp->v.getDoubleVar() << ", " << temp->next << "]";
             break;
         case DATATYPE::STRING:
-            stream << "[" << temp->v.getStrPtr() << "]";
+            stream << "[" << temp << ", " << temp->v.getStrPtr() << ", " << temp->next << "]";
             break;
         case DATATYPE::BOOLEN:
-            stream << "[" << (temp->v.getBoolVar() ? "true" : "false") << "]";
+            stream << "[" << temp << ", " << (temp->v.getBoolVar() ? "true" : "false") << ", " << temp->next << "]";
             break;
         }
         if (temp->next)
         {
-            stream << " => ";
+            stream << " ===> ";
         }
         temp = temp->next;
     }
@@ -120,6 +139,7 @@ int main()
     vl.insert("Hello");
     vl.insert(false);
     vl.insert(10.25);
+    vl.insert(121);
     std::cout << vl << std::endl;
     return 0;
 }
