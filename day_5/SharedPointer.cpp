@@ -4,7 +4,13 @@ template <typename _Tp>
 class SharedPointer
 {
 public:
-    SharedPointer(int *ptr = nullptr) : res(ptr), counter(new int(1)) {}
+    SharedPointer(_Tp *ptr = nullptr) : res(ptr)
+    {
+        if (ptr)
+        {
+            counter = new int(1);
+        }
+    }
 
     SharedPointer(const SharedPointer &sharePtr)
     {
@@ -31,6 +37,7 @@ private:
 int main()
 {
     SharedPointer<int> sharePtr(new int(100));
+    SharedPointer<int> dd;
     SharedPointer<int> sharePtr_1 = sharePtr;
     SharedPointer<int> sharePtr_2 = sharePtr;
     return 0;
