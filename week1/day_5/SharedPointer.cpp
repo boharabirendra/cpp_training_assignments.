@@ -1,0 +1,37 @@
+#include <iostream>
+
+template <typename _Tp>
+class SharedPointer
+{
+public:
+    SharedPointer(int *ptr = nullptr) : res(ptr), counter(new int(1)) {}
+
+    SharedPointer(const SharedPointer &sharePtr)
+    {
+        res = sharePtr.res;
+        counter = sharePtr.counter;
+        (*counter)++;
+    }
+
+    ~SharedPointer()
+    {
+        std::cout << "Destructor called " << std::endl;
+        (*counter)--;
+        if (*counter == 0)
+        {
+            delete res;
+        }
+    }
+
+private:
+    _Tp *res;
+    int *counter;
+};
+
+int main()
+{
+    SharedPointer<int> sharePtr(new int(100));
+    SharedPointer<int> sharePtr_1 = sharePtr;
+    SharedPointer<int> sharePtr_2 = sharePtr;
+    return 0;
+}
