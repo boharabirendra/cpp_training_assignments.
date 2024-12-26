@@ -84,6 +84,20 @@ void convertToGrayscale(std::vector<std::vector<RGB>> &imageData, int width, int
     }
 }
 
+void convertToColor(std::vector<std::vector<RGB>> &imageData, int width, int height)
+{
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            RGB &color = imageData[i][j];
+            color.r = std::min(color.r * 1.7f, 255.0f);
+            color.g = std::min(color.g * 1.3f, 255.0f);
+            color.b = std::min(color.b * 0.9f, 255.0f);
+        }
+    }
+}
+
 void sobelEdgeDetection(std::vector<std::vector<RGB>> &imageData, int width, int height)
 {
     const int Gx[3][3] = {
@@ -150,23 +164,77 @@ void drawPloy(std::vector<std::vector<RGB>> &input, int width, int height, const
 {
 }
 
-int main()
+std::vector<std::vector<RGB>> rotateImage90(const std::vector<std::vector<RGB>> &image)
 {
-    int width, height, channels;
-    unsigned char *imageData = stbi_load("./images/traffic.jpg", &width, &height, &channels, 3);
-    if (imageData == nullptr)
+    int width = image.size();
+    int height = image[0].size();
+
+    std::vector<std::vector<RGB>> rotatedImage(height, std::vector<RGB>(width));
+
+    for (int i = 0; i < width; ++i)
     {
-        std::cout << "Image loading failed\n";
+        for (int j = 0; j < height; ++j)
+        {
+            rotatedImage[j][width - i - 1] = image[i][j];
+        }
     }
 
-    // auto image = convertTo2D(imageData, width, height);
+    return rotatedImage;
+}
 
-    // convertToGrayscale(image, width, height);
-    // sobelEdgeDetection(image, width, height);
-    // saveToPNG(image, width, height, "test.png");
+std::vector<std::vector<RGB>> combineImages(std::vector<std::vector<RGB>> &tigerData, std::vector<std::vector<RGB>> &trafficData)
+{
+    int height_1 = tigerData.size();
+    int width_1 = tigerData[0].size();
+    int height_2 = trafficData.size();
+    int width_2 = trafficData[0].size();
 
-    stbi_write_png("leapfrog.png", width, height, 3, imageData, width * 3);
-    stbi_image_free(imageData);
+    int width = std::min(width_1, width_2);
+    int height = std::min(height_1, height_2);
+
+    std::vector<std::vector<RGB>> combinedImage(height, std::vector<RGB>(width));
+
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            combinedImage[i][j].r = (tigerData[i][j].r + trafficData[i][j].r) / 2;
+            combinedImage[i][j].g = (tigerData[i][j].g + trafficData[i][j].g) / 2;
+            combinedImage[i][j].b = (tigerData[i][j].b + trafficData[i][j].b) / 2;
+        }
+    }
+
+    return combinedImage;
+}
+
+int main()
+{
+    int width_1, height_1, width_2, height_2, channels;
+
+    unsigned char *tigerData = stbi_load("./images/tiger.jpg", &width_1, &height_1, &channels, 3);
+    if (tigerData == nullptr)
+    {
+        std::cout << "Failed to load tiger image\n";
+        return 1;
+    }
+    unsigned char *trafficData = stbi_load("./images/traffic.jpg", &width_2, &height_2, &channels, 3);
+    if (trafficData == nullptr)
+    {
+        std::cout << "Failed to load traffic image\n";
+        stbi_image_free(tigerData);
+        return 1;
+    }
+
+    auto tiger2DData = convertTo2D(tigerData, width_1, height_1);
+    auto traffic2Data = convertTo2D(trafficData, width_2, height_2);
+
+    auto combinedImage = combineImages(tiger2DData, traffic2Data);
+
+    saveToPNG(combinedImage, combinedImage[0].size(), combinedImage.size(), "combinedImage.png");
+
+    stbi_image_free(tigerData);
+    stbi_image_free(trafficData);
+
     return 0;
 }
 
