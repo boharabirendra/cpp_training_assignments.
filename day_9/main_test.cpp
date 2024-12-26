@@ -41,22 +41,23 @@ public:
         stbi_write_jpg("tiger-copy.jpg", m_width, m_height, m_channels, data, 100);
     }
 
-    void convertTo2D()
+    std::vector<std::vector<RGB>> &convertTo2D(unsigned char *imgbuffer, int width, int height, int channels)
     {
-        uint32_t size = m_height * m_width * m_channels;
-        for (unsigned char *p = data; *p <= size; *p += 3)
+        for (int i = 0; i < height; i++)
         {
-            RGB color;
             std::vector<RGB> row;
-            for (int i = 0; i < (m_width * m_channels); i++)
+            for (int j = 0; j < width; j++)
             {
-                color.r = *p;
-                color.g = *(p + 1);
-                color.b = *(p + 2);
-                row.emplace_back(color);
+                RGB pixel;
+                pixel.r = *imgbuffer;
+                pixel.g = *(imgbuffer + 1);
+                pixel.b = *(imgbuffer + 2);
+                imgbuffer += channels;
+                row.emplace_back(pixel);
             }
-            m_imageIn2D.emplace_back(row);
+            m_img2D.emplace_back(row);
         }
+        return m_img2D;
     }
 
     void free()
@@ -70,7 +71,7 @@ private:
     int m_channels;
     int m_height;
     std::string m_filename;
-    std::vector<std::vector<RGB>> m_imageIn2D;
+    std::vector<std::vector<RGB>> m_img2D;
 };
 
 void flip(Image *img, int dir)

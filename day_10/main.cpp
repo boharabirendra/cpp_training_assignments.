@@ -19,7 +19,7 @@ int main()
     // Create a blank canvas (1100x1100)
     auto canvas = filter.createCanvas(canvasWidth, canvasHeight);
 
-    filter.placeTileOnCanvas(smallImage, width, height);
+    filter.placeTileOnCanvas(smallImage, width, height, 10, 10);
 
     return 0;
 }

@@ -31,28 +31,37 @@ public:
         return canvas;
     }
 
-    unsigned char *getRow(unsigned char *tile, int width, int channels, int rowNumber)
+    void placeTileOnCanvas(unsigned char *tile, int tileWidth, int tileHeight, int gapX, int gapY)
     {
-        row = new unsigned char[width * channels];
-        for (unsigned char *p = tile; p <= tile + (rowNumber * width * channels); p += channels)
-        {
-            *row = *p;
-            *(row + 1) = *(p + 1);
-            *(row + 2) = *(p + 2);
-            row += channels;
-        }
-        return row;
-    }
+        int canvasWidth = 1100;
+        int canvasHeight = 1100;
 
-    void placeTileOnCanvas(unsigned char *tile, int width, int height)
-    {
-        for (unsigned char *p = canvas + (100 * width * 3); p <= canvas + (150 * width * 3); p += 3)
+        for (int startY = 0; startY < canvasHeight; startY += tileHeight + gapY)
         {
-            *p = (uint8_t)255;
-            *(p + 1) = (uint8_t)0;
-            *(p + 2) = (uint8_t)0;
+            for (int startX = 0; startX < canvasWidth; startX += tileWidth + gapX)
+            {
+                for (int y = 0; y < tileHeight; y++)
+                {
+                    if (startY + y >= canvasHeight)
+                        break;
+
+                    for (int x = 0; x < tileWidth; x++)
+                    {
+                        if (startX + x >= canvasWidth)
+                            break;
+
+                        int tileIndex = (y * tileWidth + x) * 3;
+                        int canvasIndex = ((startY + y) * canvasWidth + (startX + x)) * 3;
+
+                        canvas[canvasIndex] = tile[tileIndex];
+                        canvas[canvasIndex + 1] = tile[tileIndex + 1];
+                        canvas[canvasIndex + 2] = tile[tileIndex + 2];
+                    }
+                }
+            }
         }
-        stbi_write_jpg("canvas.jpg", 1100, 1100, 3, canvas, 100);
+
+        stbi_write_jpg("canvas.jpg", canvasWidth, canvasHeight, 3, canvas, 100);
     }
 
 private:
