@@ -21,5 +21,7 @@ int main()
 
     filter.placeTileOnCanvas(smallImage, width, height, 10, 10);
 
+    stbi_image_free(smallImage);
+
     return 0;
 }

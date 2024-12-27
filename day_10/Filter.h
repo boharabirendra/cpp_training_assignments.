@@ -64,6 +64,12 @@ public:
         stbi_write_jpg("canvas.jpg", canvasWidth, canvasHeight, 3, canvas, 100);
     }
 
+    ~Filter()
+    {
+        delete[] row;
+        delete[] canvas;
+    }
+
 private:
     unsigned char *row = nullptr;
     unsigned char *canvas = nullptr;
