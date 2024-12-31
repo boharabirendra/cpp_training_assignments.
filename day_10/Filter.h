@@ -33,8 +33,8 @@ public:
 
     void placeTileOnCanvas(unsigned char *tile, int tileWidth, int tileHeight, int gapX, int gapY)
     {
-        int canvasWidth = 1100;
-        int canvasHeight = 1100;
+        int canvasWidth = 11000;
+        int canvasHeight = 11000;
 
         for (int startY = 0; startY < canvasHeight; startY += tileHeight + gapY)
         {

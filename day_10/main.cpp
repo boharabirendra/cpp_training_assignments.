@@ -13,8 +13,8 @@ int main()
     Filter filter;
 
     // Set the target canvas size (1100x1100)
-    int canvasWidth = 1100;
-    int canvasHeight = 1100;
+    int canvasWidth = 11000;
+    int canvasHeight = 11000;
 
     // Create a blank canvas (1100x1100)
     auto canvas = filter.createCanvas(canvasWidth, canvasHeight);
