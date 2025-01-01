@@ -1,18 +1,15 @@
-#pragma once
+#ifndef FILTERFACTORY_H
+#define FILTERFACTORY_H
 
 #include "./Filter.h"
+#include "../types/enums.h"
 
 class FilterFactory
 {
 public:
-    virtual Filter *createFilter() = 0;
+    FilterFactory() = delete;
+    FilterFactory(const FilterFactory &) = delete;
+    static Filter *getFilter(int);
 };
 
-class MedianFilterFactory : public FilterFactory
-{
-public:
-    Filter *createFilter() override
-    {
-        return new MedianFilter();
-    }
-};
+#endif

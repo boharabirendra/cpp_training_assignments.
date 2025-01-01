@@ -1,15 +1,14 @@
-#pragma once
+#ifndef FILTER_H
+#define FILTER_H
+
+#include <vector>
+
+#include "../types/structs.h"
 
 class Filter
 {
 public:
-    virtual void apply(unsigned char *img) = 0;
+    virtual std::vector<std::vector<RGB>> apply(std::vector<std::vector<RGB>> &) = 0;
 };
 
-class MedianFilter : public Filter
-{
-public:
-    void apply(unsigned char *img) override
-    {
-    }
-};
+#endif

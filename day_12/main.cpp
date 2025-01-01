@@ -19,8 +19,10 @@ void sayHi()
 
 int main()
 {
-    std::thread(sayHello);
-    std::thread(sayHi);
+    std::thread t1(sayHello);
+    std::thread t2(sayHi);
+
+    t1.join();
 
     std::cout << "Hi from Main thread " << std::endl;
     while (true)

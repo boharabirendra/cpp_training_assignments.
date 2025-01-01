@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/day12.dir/CMakeFiles/3.22.1/CompilerIdCXX/CMakeCXXCompilerId.cpp.o -o day12 

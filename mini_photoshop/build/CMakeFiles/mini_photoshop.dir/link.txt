@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/mini_photoshop.dir/CMakeFiles/3.22.1/CompilerIdCXX/CMakeCXXCompilerId.cpp.o CMakeFiles/mini_photoshop.dir/src/MedianFilter.cpp.o -o mini_photoshop 
