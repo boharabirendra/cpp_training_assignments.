@@ -20,7 +20,6 @@ Filter *FilterFactory::getFilter(int opt)
         filter = new Noise();
         break;
     default:
-        std::cout << "fuck you";
         break;
     }
 
