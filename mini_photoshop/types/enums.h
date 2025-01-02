@@ -4,8 +4,9 @@
 enum class FILTERTYPES
 {
     MEDIAN = 1,
-    GrayScale,
-    Gaussian,
+    GRAYSCALE,
+    ADDNOISE,
+    GAUSSIAN,
 };
 
 #endif

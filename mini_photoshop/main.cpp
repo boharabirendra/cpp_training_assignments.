@@ -10,6 +10,7 @@ int main()
     int opt;
     std::cout << "1. Median filter \n";
     std::cout << "2. Gray scale \n";
+    std::cout << "3. Add Noise \n";
     std::cout << "Choose the option:- ";
     std::cin >> opt;
 
@@ -25,7 +26,7 @@ int main()
         }
         auto mat = image.convertTo2D(imageData);
         auto filteredImage = filter->apply(mat);
-        image.save(filteredImage, "./grayscale_image.png");
+        image.save(filteredImage, "./noise_image.png");
     }
     catch (const std::exception &e)
     {

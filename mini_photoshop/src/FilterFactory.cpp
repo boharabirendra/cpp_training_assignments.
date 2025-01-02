@@ -1,4 +1,5 @@
 #include "../types/enums.h"
+#include "../include/Noise.h"
 #include "../include/GrayScale.h"
 #include "../include/MedianFilter.h"
 #include "../include/FilterFactory.h"
@@ -12,8 +13,11 @@ Filter *FilterFactory::getFilter(int opt)
     case FILTERTYPES::MEDIAN:
         filter = new MedianFilter();
         break;
-    case FILTERTYPES::GrayScale:
+    case FILTERTYPES::GRAYSCALE:
         filter = new GrayScale();
+        break;
+    case FILTERTYPES::ADDNOISE:
+        filter = new Noise();
         break;
     default:
         std::cout << "fuck you";
