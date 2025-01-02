@@ -7,7 +7,6 @@
 
 unsigned char *Image::load(const char *imagePath)
 {
-    std::cout << imagePath << std::endl;
     imageData = stbi_load(imagePath, &width, &height, &channels, 3);
     if (!imageData)
     {
