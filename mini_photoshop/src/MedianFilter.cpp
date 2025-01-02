@@ -18,9 +18,9 @@ std::vector<std::vector<RGB>> MedianFilter::apply(std::vector<std::vector<RGB>> 
             std::vector<uint8_t> reds, greens, blues;
             for (const auto &neighbor : neighbors)
             {
-                reds.push_back(neighbor.r);
-                greens.push_back(neighbor.g);
-                blues.push_back(neighbor.b);
+                reds.emplace_back(neighbor.r);
+                greens.emplace_back(neighbor.g);
+                blues.emplace_back(neighbor.b);
             }
 
             filteredImage[i][j].r = computeMedian(reds);

@@ -26,9 +26,9 @@ void Image::save(const std::vector<std::vector<RGB>> &imageData, const char *fil
         for (int j = 0; j < width; ++j)
         {
             const RGB &color = imageData[i][j];
-            imageFlat.push_back(color.r);
-            imageFlat.push_back(color.g);
-            imageFlat.push_back(color.b);
+            imageFlat.emplace_back(color.r);
+            imageFlat.emplace_back(color.g);
+            imageFlat.emplace_back(color.b);
         }
     }
 
