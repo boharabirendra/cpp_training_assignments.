@@ -4,34 +4,44 @@ template <typename _Tp>
 class SharedPointer
 {
 public:
-    SharedPointer(_Tp *ptr = nullptr) : res(ptr)
+    SharedPointer(_Tp *ptr = nullptr) : res(ptr), counter(new int(1))
     {
-        if (ptr)
-        {
-            counter = new int(1);
-        }
+        std::cout << "Constructor was called " << std::endl;
     }
 
-    SharedPointer(const SharedPointer &sharePtr)
+    SharedPointer(const SharedPointer<_Tp> &ptr)
     {
-        res = sharePtr.res;
-        counter = sharePtr.counter;
-        (*counter)++;
-    }
-
-    ~SharedPointer()
-    {
-        std::cout << "Destructor called " << std::endl;
-        (*counter)--;
-        if (*counter == 0)
-        {
-            delete res;
-        }
+        res = ptr.res;
+        counter = ptr.counter;
+        incrementCounter();
     }
 
 private:
     _Tp *res;
     int *counter;
+
+    void incrementCounter()
+    {
+        if (counter)
+        {
+            (*counter)++;
+        }
+    }
+
+    void decrementCounter()
+    {
+        if (counter)
+        {
+            (*counter)--;
+            if ((*counter) == 0)
+            {
+                delete res;
+                delete counter;
+                res = nullptr;
+                counter = nullptr;
+            }
+        }
+    }
 };
 
 int main()
